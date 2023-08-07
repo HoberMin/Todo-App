@@ -96,6 +96,13 @@ export const TodoHeadBlock = styled.div`
   }
 `;
 
+export const TodoListBlock = styled.div`
+  flex: 1;
+  padding: 20px 32px;
+  padding-bottom: 48px;
+  overflow-y: auto;
+`;
+
 export const Remove = styled.div`
   display: flex;
   align-items: center;
