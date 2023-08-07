@@ -28,6 +28,12 @@ function TodoCreate() {
       },
     };
 
+    const actionCreate = (todo) => ({ type: CREATE, todo });
+    dispatch(actionCreate(todo.todo));
+
+    setOpen(false);
+    nextId.current += 1;
+
   return (
     <>
       {open && (
