@@ -19,5 +19,11 @@ const handlers = [
     return res(ctx.status(200), ctx.json({ message: "삭제성공" }));
   }),
 
+  rest.put("/api/todo", (req, res, ctx) => {
+    // 요청 정보를 콘솔에 출력합니다.
+    console.log("Todo ON/OFF", req.body);
+    return res(ctx.status(200), ctx.json(req.body));
+  }),
+];
 
 export default handlers;
