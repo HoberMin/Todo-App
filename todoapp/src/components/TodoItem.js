@@ -1,10 +1,16 @@
-import React from "react";
-import { MdDone, MdDelete } from "react-icons/md";
 import React, { useState } from "react";
 import { MdDone, MdDelete, MdRefresh } from "react-icons/md";
 import { useTodoDispatch, useTodoNextId } from "../Context/TodoContext";
 // 아이콘 모듈
-import { Remove, TodoItemBlock, CheckCircle, Text } from "../styled/Styled";
+import {
+  Remove,
+  ChangeForm,
+  Modification,
+  ModificationInput,
+  TodoItemBlock,
+  CheckCircle,
+  Text,
+} from "../styled/Styled";
 
 function TodoItem({ id, done, text }) {
   const dispatch = useTodoDispatch();
