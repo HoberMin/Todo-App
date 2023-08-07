@@ -22,3 +22,8 @@ import { AuthBtn, AuthTextInput } from "../styled/AuthStyled";
         font="HakgyoansimWoojuR, sans-serif"
         name="verification"
       />
+      <AuthBtn $textColor="white" $backColor="red" type="submit">
+        {" "}
+        회원가입
+      </AuthBtn>
+    </form>
