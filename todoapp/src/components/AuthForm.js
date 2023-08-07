@@ -31,6 +31,38 @@ export function AuthForm() {
       return; // 유효성 검사 실패 시 함수 실행 중지
     }
 
+    async function fetchData(url, method, data) {
+      try {
+        const options = {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        if (data) {
+          options.body = JSON.stringify(data);
+        }
+        const response = await fetch(url, options);
+        //method, headers, body 순으로 객체에 담아서 호출
+        const result = await response.json();
+        return result;
+      } catch (error) {
+        console.error("Error occurred:", error.message);
+        throw error;
+      }
+    }
+
+
+    try {
+      const postData = { id: id.value, pw: pw.value };
+      const data = await fetchData("/api/auth", "POST", postData);
+      console.log(data);
+      navigate("/");
+    } catch (error) {
+      console.error("데이터가져오기 오류");
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <AuthTextInput
