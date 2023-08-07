@@ -15,12 +15,16 @@ import {
 function TodoItem({ id, done, text }) {
   const dispatch = useTodoDispatch();
   const nextId = useTodoNextId();
+  const onToggle = async () => {
+    dispatch({ type: "TOGGLE", id });
   return (
     <TodoItemBlock>
       <CheckCircle done={done}>{done && <MdDone />}</CheckCircle>
       <Text done={done}>{text}</Text>
       <Remove>
+      <CheckCircle $done={done} onClick={onToggle}>
         {done && <MdDone />}
+      </CheckCircle>
         <MdRefresh />
         <MdDelete />
       </Remove>
