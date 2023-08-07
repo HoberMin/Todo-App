@@ -7,7 +7,6 @@ import LoginPage from "./pages/LoginPage";
 import AuthPage from "./pages/AuthPage";
 
 function App() {
-  return <Todo />;
   const isAuthenticated = true;
   /*
   지금 로그인 false라 /todo로 접근이 불가능하다.
