@@ -9,3 +9,21 @@ import {
   AlignContainer,
 } from "../styled/AuthStyled";
 import { LoginForm } from "../components/LoginForm";
+
+function LoginPage() {
+  return (
+    <>
+      <AuthGlobalStyle />
+      <AuthBackground>
+        <Logo>호벌TodoList</Logo>
+        <AuthLoginContainer>
+          <AuthTitle>로그인</AuthTitle>
+          <AlignContainer>
+          </AlignContainer>
+        </AuthLoginContainer>
+      </AuthBackground>
+    </>
+  );
+}
+
+export default LoginPage;
