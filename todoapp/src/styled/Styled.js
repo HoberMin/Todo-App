@@ -133,6 +133,31 @@ export const Remove = styled.div`
   display: none;
 `;
 
+export const ChangeForm = styled.form`
+  background: #f8f9fa;
+  padding-left: 32px;
+  padding-top: 32px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-top: 1px solid #e9ecef;
+`;
+
+export const Modification = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #dee2e6;
+  font-size: 24px;
+  cursor: pointer;
+  &:hover {
+    color: #ff6b6b;
+  }
+  display: none;
+`;
+
 export const TodoItemBlock = styled.div`
   display: flex;
   align-items: center;
@@ -146,6 +171,16 @@ export const TodoItemBlock = styled.div`
   }
 `;
 // 컴포넌트에 마우스가 올라가면 Remove컴포넌트를 보여주는 코드
+export const ModificationInput = styled.input`
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  width: 70%;
+  outline: none;
+  font-size: 18px;
+  box-sizing: border-box;
+`;
+
 export const CheckCircle = styled.div`
   width: 32px;
   height: 32px;
