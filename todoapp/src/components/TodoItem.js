@@ -17,6 +17,9 @@ function TodoItem({ id, done, text }) {
   const nextId = useTodoNextId();
   const onToggle = async () => {
     dispatch({ type: "TOGGLE", id });
+  const onRemove = async () => {
+    dispatch({ type: "REMOVE", id });
+
   return (
     <TodoItemBlock>
       <CheckCircle done={done}>{done && <MdDone />}</CheckCircle>
@@ -26,6 +29,7 @@ function TodoItem({ id, done, text }) {
         {done && <MdDone />}
       </CheckCircle>
         <MdRefresh />
+      <Remove onClick={onRemove}>
         <MdDelete />
       </Remove>
     </TodoItemBlock>
