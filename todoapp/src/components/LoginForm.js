@@ -2,6 +2,7 @@ import React from "react";
 import { useAuthState } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { AuthBtn, AuthTextInput } from "../styled/AuthStyled";
+export function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { id, pw } = e.target.elements;
@@ -18,3 +19,19 @@ import { AuthBtn, AuthTextInput } from "../styled/AuthStyled";
       return; // 유효성 검사 실패 시 함수 실행 중지
     }
 
+  return (
+    <form onSubmit={handleSubmit}>
+      <AuthTextInput
+        type="text"
+        placeholder="아이디 입력"
+        font="HakgyoansimWoojuR, sans-serif"
+        name="id"
+      />
+      <AuthTextInput
+        type="password"
+        placeholder="비밀번호 입력"
+        font="HakgyoansimWoojuR, sans-serif"
+        name="pw"
+      />
+  );
+}
