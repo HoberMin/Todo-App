@@ -15,10 +15,33 @@ import {
 function TodoItem({ id, done, text }) {
   const dispatch = useTodoDispatch();
   const nextId = useTodoNextId();
+  const [changeOpen, setChangeOpen] = useState(true);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const { modification } = e.target.elements;
+    const MODIFY = "MODIFY";
+    const todo = {
+      todo: {
+        id: id,
+        text: modification.value,
+        done: done,
+      },
+    };
+    const actionModify = (todo) => ({ type: MODIFY, todo });
+    dispatch(actionModify(todo.todo));
+
+    setChangeOpen(true);
+  };
+
   const onToggle = async () => {
     dispatch({ type: "TOGGLE", id });
   const onRemove = async () => {
     dispatch({ type: "REMOVE", id });
+
+  const onModify = () => {
+    setChangeOpen(!changeOpen);
+  };
 
   return (
     <TodoItemBlock>
@@ -28,7 +51,23 @@ function TodoItem({ id, done, text }) {
       <CheckCircle $done={done} onClick={onToggle}>
         {done && <MdDone />}
       </CheckCircle>
+      <Text $done={done}>
+        {changeOpen ? (
+          text
+        ) : (
+          <ChangeForm onSubmit={onSubmit}>
+            <ModificationInput
+              autoFocus
+              placeholder="수정할 Text값을 입력 후, Enter를 누르세요"
+              type="text"
+              name="modification"
+            ></ModificationInput>
+          </ChangeForm>
+        )}
+      </Text>
+      <Modification onClick={onModify}>
         <MdRefresh />
+      </Modification>
       <Remove onClick={onRemove}>
         <MdDelete />
       </Remove>
@@ -37,3 +76,5 @@ function TodoItem({ id, done, text }) {
 }
 
 export default TodoItem;
+export default React.memo(TodoItem);
+
