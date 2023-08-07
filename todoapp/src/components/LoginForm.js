@@ -2,7 +2,11 @@ import React from "react";
 import { useAuthState } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { AuthBtn, AuthTextInput } from "../styled/AuthStyled";
+
 export function LoginForm() {
+  const state = useAuthState();
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { id, pw } = e.target.elements;
@@ -33,5 +37,11 @@ export function LoginForm() {
         font="HakgyoansimWoojuR, sans-serif"
         name="pw"
       />
+
+      <AuthBtn $textColor="white" $backColor="red" type="submit">
+        {" "}
+        로그인
+      </AuthBtn>
+    </form>
   );
 }
