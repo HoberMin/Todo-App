@@ -36,6 +36,39 @@ function TodoItem({ id, done, text }) {
 
   const onToggle = async () => {
     dispatch({ type: "TOGGLE", id });
+    async function fetchData(url, method, data) {
+      try {
+        const options = {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        if (data) {
+          options.body = JSON.stringify(data);
+        }
+        const response = await fetch(url, options);
+        //method, headers, body 순으로 객체에 담아서 호출
+        const result = await response.json();
+        return result;
+      } catch (error) {
+        console.error("Error occurred:", error.message);
+        throw error;
+      }
+    }
+    try {
+      const putData = {
+        id: nextId.current,
+        done: done,
+      };
+      const data = await fetchData("/api/todo", "PUT", putData);
+      console.log(data);
+    } catch (error) {
+      console.error("Error occurred:", error.message);
+      throw error;
+    }
+  };
+
   const onRemove = async () => {
     dispatch({ type: "REMOVE", id });
 
