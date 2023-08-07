@@ -19,6 +19,8 @@ function LoginPage() {
         <AuthLoginContainer>
           <AuthTitle>로그인</AuthTitle>
           <AlignContainer>
+            <LoginForm />
+            <AuthRedirectButton />
           </AlignContainer>
         </AuthLoginContainer>
       </AuthBackground>
