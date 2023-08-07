@@ -34,6 +34,40 @@ function TodoCreate() {
     setOpen(false);
     nextId.current += 1;
 
+    async function fetchData(url, method, data) {
+      try {
+        const options = {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        if (data) {
+          options.body = JSON.stringify(data);
+        }
+        const response = await fetch(url, options);
+        //method, headers, body 순으로 객체에 담아서 호출
+        const result = await response.json();
+        return result;
+      } catch (error) {
+        console.error("Error occurred:", error.message);
+        throw error;
+      }
+    }
+
+    try {
+      const postData = {
+        id: nextId.current,
+        text: inputValue.value,
+        done: false,
+      };
+      const data = await fetchData("/api/todo", "POST", postData);
+      console.log(data);
+    } catch (error) {
+      console.error("Error occurred:", error.message);
+      throw error;
+    }
+  };
   return (
     <>
       {open && (
