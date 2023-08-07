@@ -10,10 +10,37 @@ import {
 
 function TodoCreate() {
   const [open, setOpen] = useState(false);
+  const dispatch = useTodoDispatch();
+  const nextId = useTodoNextId();
+
   const onToggle = () => setOpen(!open);
+  const onSubmit = async (e) => {
+    const { inputValue } = e.target.elements;
+    //이벤트로 받아옴
+    e.preventDefault();
+
+    const CREATE = "CREATE";
+    const todo = {
+      todo: {
+        id: nextId.current,
+        text: inputValue.value,
+        done: false,
+      },
+    };
+
   return (
     <>
       {open && (
+        <InsertFormPositioner>
+          <InsertForm onSubmit={onSubmit}>
+            <Input
+              autoFocus
+              placeholder="할 일을 입력 후, Enter를 누르세요"
+              type="text"
+              name="inputValue"
+            />
+          </InsertForm>
+        </InsertFormPositioner>
       )}
       <CircleButton onClick={onToggle} open={open}>
         <MdAdd />
