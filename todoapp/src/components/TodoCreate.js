@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { MdAdd } from "react-icons/md";
-
 import { useTodoDispatch, useTodoNextId } from "../Context/TodoContext";
 import {
   CircleButton,
@@ -10,14 +9,13 @@ import {
 } from "../styled/Styled";
 
 function TodoCreate() {
+  const [open, setOpen] = useState(false);
+  const onToggle = () => setOpen(!open);
   return (
     <>
-      <InsertFormPositioner>
-        <InsertForm>
-          <Input />
-        </InsertForm>
-      </InsertFormPositioner>
-      <CircleButton>
+      {open && (
+      )}
+      <CircleButton onClick={onToggle} open={open}>
         <MdAdd />
       </CircleButton>
     </>
