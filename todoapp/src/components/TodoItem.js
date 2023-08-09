@@ -17,7 +17,7 @@ function TodoItem({ id, checked, content }) {
   const nextId = useTodoNextId();
   const [changeOpen, setChangeOpen] = useState(true);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const { modification } = e.target.elements;
     const MODIFY = "MODIFY";
@@ -30,16 +30,13 @@ function TodoItem({ id, checked, content }) {
     };
     const actionModify = (todo) => ({ type: MODIFY, todo });
     dispatch(actionModify(todo.todo));
-
     setChangeOpen(true);
-  };
 
-  const onToggle = async () => {
-    dispatch({ type: "TOGGLE", id });
     async function fetchData(url, method, data) {
       try {
         const options = {
           method,
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -62,12 +59,20 @@ function TodoItem({ id, checked, content }) {
         id: nextId.current,
         checked: checked,
       };
-      const data = await fetchData("/api/todo", "PUT", putData);
+      const data = await fetchData(
+        `https://api.todo-app.kro.kr/todo/${putData.id}`,
+        "PUT",
+        putData
+      );
       console.log(data);
     } catch (error) {
       console.error("Error occurred:", error.message);
       throw error;
     }
+  };
+
+  const onToggle = () => {
+    dispatch({ type: "TOGGLE", id });
   };
 
   const onRemove = async () => {
@@ -77,6 +82,7 @@ function TodoItem({ id, checked, content }) {
       try {
         const options = {
           method,
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -97,7 +103,11 @@ function TodoItem({ id, checked, content }) {
       const deleteData = {
         id: nextId.current,
       };
-      const data = await fetchData("/api/todo", "DELETE", deleteData);
+      const data = await fetchData(
+        `https://api.todo-app.kro.kr/todo/${deleteData.id}`,
+        "DELETE",
+        deleteData
+      );
       console.log(data);
     } catch (error) {
       console.error("Error occurred:", error.message);
