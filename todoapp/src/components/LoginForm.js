@@ -27,6 +27,7 @@ export function LoginForm() {
       try {
         const options = {
           method,
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -46,16 +47,13 @@ export function LoginForm() {
 
     try {
       const postData = { id: id.value, pw: pw.value };
-      const data = await fetchData("/api/login", "POST", postData);
-
-      const isValidation = state.some(
-        (item) => item.id === data.id && item.pw === data.pw
+      const data = await fetchData(
+        "https://api.todo-app.kro.kr/signin",
+        "POST",
+        postData
       );
-      if (isValidation) {
-        return navigate("/Todo");
-      } else {
-        alert("ID와 PW를 확인해주세요.");
-      }
+      console.log(data);
+      navigate("/Todo");
     } catch (error) {
       console.error("데이터가져오기 오류");
     }
