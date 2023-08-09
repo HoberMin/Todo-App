@@ -25,8 +25,15 @@ const TodoDispatchContext = createContext();
 const TodoNextIdContext = createContext();
 
 export function TodoProvider({ children }) {
-  const [state, dispatch] = useReducer(todoReducer, initialTodos);
+  const [state, dispatch] = useReducer(todoReducer, []);
   const nextId = useRef(5);
+  useEffect(() => {
+    fetch("https://api.todo-app.kro.kr/todos", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => dispatch({ type: "SET", todo: data.todos }));
+  }, []);
   return (
     <TodoStateContext.Provider value={state}>
       <TodoDispatchContext.Provider value={dispatch}>
