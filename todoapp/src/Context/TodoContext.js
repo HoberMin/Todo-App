@@ -1,6 +1,11 @@
-import React, { createContext, useReducer, useContext, useRef } from "react";
-
-// useReducer을 사용해 상태관리
+import React, {
+  createContext,
+  useReducer,
+  useContext,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
 
 function todoReducer(state, action) {
   switch (action.type) {
@@ -18,6 +23,8 @@ function todoReducer(state, action) {
           ? { ...todo, content: action.todo.content }
           : todo
       );
+    case "SET":
+      return action.todo;
     default:
       throw new Error(`unhandled action type : ${action.type}`);
   }
