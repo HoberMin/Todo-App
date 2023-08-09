@@ -8,13 +8,15 @@ function todoReducer(state, action) {
       return state.concat(action.todo);
     case "TOGGLE":
       return state.map((todo) =>
-        todo.id === action.id ? { ...todo, done: !todo.done } : todo
+        todo.id === action.id ? { ...todo, checked: !todo.checked } : todo
       );
     case "REMOVE":
       return state.filter((todo) => todo.id !== action.id);
     case "MODIFY":
       return state.map((todo) =>
-        todo.id === action.todo.id ? { ...todo, text: action.todo.text } : todo
+        todo.id === action.todo.id
+          ? { ...todo, content: action.todo.content }
+          : todo
       );
     default:
       throw new Error(`unhandled action type : ${action.type}`);
