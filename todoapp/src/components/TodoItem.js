@@ -12,7 +12,7 @@ import {
   Text,
 } from "../styled/Styled";
 
-function TodoItem({ id, done, text }) {
+function TodoItem({ id, checked, content }) {
   const dispatch = useTodoDispatch();
   const nextId = useTodoNextId();
   const [changeOpen, setChangeOpen] = useState(true);
@@ -24,8 +24,8 @@ function TodoItem({ id, done, text }) {
     const todo = {
       todo: {
         id: id,
-        text: modification.value,
-        done: done,
+        content: modification.value,
+        checked: checked,
       },
     };
     const actionModify = (todo) => ({ type: MODIFY, todo });
@@ -56,10 +56,11 @@ function TodoItem({ id, done, text }) {
         throw error;
       }
     }
+
     try {
       const putData = {
         id: nextId.current,
-        done: done,
+        checked: checked,
       };
       const data = await fetchData("/api/todo", "PUT", putData);
       console.log(data);
@@ -110,12 +111,12 @@ function TodoItem({ id, done, text }) {
 
   return (
     <TodoItemBlock>
-      <CheckCircle $done={done} onClick={onToggle}>
-        {done && <MdDone />}
+      <CheckCircle $done={checked} onClick={onToggle}>
+        {checked && <MdDone />}
       </CheckCircle>
-      <Text $done={done}>
+      <Text $checked={checked}>
         {changeOpen ? (
-          text
+          content
         ) : (
           <ChangeForm onSubmit={onSubmit}>
             <ModificationInput
