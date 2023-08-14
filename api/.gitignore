@@ -1,0 +1,14 @@
+.DS_Store
+
+# dependencies
+node_modules
+
+# build files
+dist
+
+# session files
+sessions
+
+# env files
+.env*
+!.env.example
