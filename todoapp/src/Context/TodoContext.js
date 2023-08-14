@@ -1,6 +1,11 @@
-import React, { createContext, useReducer, useContext, useRef } from "react";
-
-// useReducer을 사용해 상태관리
+import React, {
+  createContext,
+  useReducer,
+  useContext,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
 
 function todoReducer(state, action) {
   switch (action.type) {
@@ -8,14 +13,18 @@ function todoReducer(state, action) {
       return state.concat(action.todo);
     case "TOGGLE":
       return state.map((todo) =>
-        todo.id === action.id ? { ...todo, done: !todo.done } : todo
+        todo.id === action.id ? { ...todo, checked: !todo.checked } : todo
       );
     case "REMOVE":
       return state.filter((todo) => todo.id !== action.id);
     case "MODIFY":
       return state.map((todo) =>
-        todo.id === action.todo.id ? { ...todo, text: action.todo.text } : todo
+        todo.id === action.todo.id
+          ? { ...todo, content: action.todo.content }
+          : todo
       );
+    case "SET":
+      return action.todo;
     default:
       throw new Error(`unhandled action type : ${action.type}`);
   }
@@ -25,8 +34,15 @@ const TodoDispatchContext = createContext();
 const TodoNextIdContext = createContext();
 
 export function TodoProvider({ children }) {
-  const [state, dispatch] = useReducer(todoReducer, initialTodos);
+  const [state, dispatch] = useReducer(todoReducer, []);
   const nextId = useRef(5);
+  useEffect(() => {
+    fetch("https://api.todo-app.kro.kr/todos", {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => dispatch({ type: "SET", todo: data.todos }));
+  }, []);
   return (
     <TodoStateContext.Provider value={state}>
       <TodoDispatchContext.Provider value={dispatch}>

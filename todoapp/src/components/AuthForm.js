@@ -35,6 +35,7 @@ export function AuthForm() {
       try {
         const options = {
           method,
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -52,10 +53,17 @@ export function AuthForm() {
       }
     }
 
-
     try {
-      const postData = { id: id.value, pw: pw.value };
-      const data = await fetchData("/api/auth", "POST", postData);
+      const postData = {
+        id: id.value,
+        pw: pw.value,
+        pwconfirm: verification.value,
+      };
+      const data = await fetchData(
+        "https://api.todo-app.kro.kr/signup",
+        "POST",
+        postData
+      );
       console.log(data);
       navigate("/");
     } catch (error) {

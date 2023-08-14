@@ -4,7 +4,7 @@ import { TodoHeadBlock } from "../styled/Styled";
 
 function TodoHead() {
   const todos = useTodoState();
-  const undoneTasks = todos.filter((todo) => !todo.done);
+  const undoneTasks = todos.filter((todo) => !todo.checked);
 
   const today = new Date();
   const dateString = today.toLocaleDateString("ko-KR", {

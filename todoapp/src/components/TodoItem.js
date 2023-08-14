@@ -12,34 +12,31 @@ import {
   Text,
 } from "../styled/Styled";
 
-function TodoItem({ id, done, text }) {
+function TodoItem({ id, checked, content }) {
   const dispatch = useTodoDispatch();
   const nextId = useTodoNextId();
   const [changeOpen, setChangeOpen] = useState(true);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const { modification } = e.target.elements;
     const MODIFY = "MODIFY";
     const todo = {
       todo: {
         id: id,
-        text: modification.value,
-        done: done,
+        content: modification.value,
+        checked: checked,
       },
     };
     const actionModify = (todo) => ({ type: MODIFY, todo });
     dispatch(actionModify(todo.todo));
-
     setChangeOpen(true);
-  };
 
-  const onToggle = async () => {
-    dispatch({ type: "TOGGLE", id });
     async function fetchData(url, method, data) {
       try {
         const options = {
           method,
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -56,17 +53,26 @@ function TodoItem({ id, done, text }) {
         throw error;
       }
     }
+
     try {
       const putData = {
         id: nextId.current,
-        done: done,
+        checked: checked,
       };
-      const data = await fetchData("/api/todo", "PUT", putData);
+      const data = await fetchData(
+        `https://api.todo-app.kro.kr/todo/${putData.id}`,
+        "PUT",
+        putData
+      );
       console.log(data);
     } catch (error) {
       console.error("Error occurred:", error.message);
       throw error;
     }
+  };
+
+  const onToggle = () => {
+    dispatch({ type: "TOGGLE", id });
   };
 
   const onRemove = async () => {
@@ -76,6 +82,7 @@ function TodoItem({ id, done, text }) {
       try {
         const options = {
           method,
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -96,7 +103,11 @@ function TodoItem({ id, done, text }) {
       const deleteData = {
         id: nextId.current,
       };
-      const data = await fetchData("/api/todo", "DELETE", deleteData);
+      const data = await fetchData(
+        `https://api.todo-app.kro.kr/todo/${deleteData.id}`,
+        "DELETE",
+        deleteData
+      );
       console.log(data);
     } catch (error) {
       console.error("Error occurred:", error.message);
@@ -110,12 +121,12 @@ function TodoItem({ id, done, text }) {
 
   return (
     <TodoItemBlock>
-      <CheckCircle $done={done} onClick={onToggle}>
-        {done && <MdDone />}
+      <CheckCircle $done={checked} onClick={onToggle}>
+        {checked && <MdDone />}
       </CheckCircle>
-      <Text $done={done}>
+      <Text $checked={checked}>
         {changeOpen ? (
-          text
+          content
         ) : (
           <ChangeForm onSubmit={onSubmit}>
             <ModificationInput

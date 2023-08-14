@@ -12,8 +12,8 @@ function TodoList() {
         <TodoItem
           key={todo.id}
           id={todo.id}
-          text={todo.text}
-          done={todo.done}
+          content={todo.content}
+          checked={todo.checked}
         />
       ))}
     </TodoListBlock>

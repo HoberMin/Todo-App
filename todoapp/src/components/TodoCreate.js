@@ -16,15 +16,14 @@ function TodoCreate() {
   const onToggle = () => setOpen(!open);
   const onSubmit = async (e) => {
     const { inputValue } = e.target.elements;
-    //이벤트로 받아옴
     e.preventDefault();
 
     const CREATE = "CREATE";
     const todo = {
       todo: {
         id: nextId.current,
-        text: inputValue.value,
-        done: false,
+        content: inputValue.value,
+        checked: false,
       },
     };
 
@@ -38,6 +37,7 @@ function TodoCreate() {
       try {
         const options = {
           method,
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -46,7 +46,6 @@ function TodoCreate() {
           options.body = JSON.stringify(data);
         }
         const response = await fetch(url, options);
-        //method, headers, body 순으로 객체에 담아서 호출
         const result = await response.json();
         return result;
       } catch (error) {
@@ -58,10 +57,14 @@ function TodoCreate() {
     try {
       const postData = {
         id: nextId.current,
-        text: inputValue.value,
-        done: false,
+        content: inputValue.value,
+        checked: false,
       };
-      const data = await fetchData("/api/todo", "POST", postData);
+      const data = await fetchData(
+        "https://api.todo-app.kro.kr/todo",
+        "POST",
+        postData
+      );
       console.log(data);
     } catch (error) {
       console.error("Error occurred:", error.message);
