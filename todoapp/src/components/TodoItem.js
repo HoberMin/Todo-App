@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdDone, MdDelete, MdRefresh } from "react-icons/md";
-import { useTodoDispatch, useTodoNextId } from "../Context/TodoContext";
+import { useTodoDispatch } from "../Context/TodoContext";
 // 아이콘 모듈
 import {
   Remove,
@@ -14,7 +14,7 @@ import {
 
 function TodoItem({ id, checked, content }) {
   const dispatch = useTodoDispatch();
-  const nextId = useTodoNextId();
+
   const [changeOpen, setChangeOpen] = useState(true);
 
   const onSubmit = async (e) => {
@@ -45,7 +45,6 @@ function TodoItem({ id, checked, content }) {
           options.body = JSON.stringify(data);
         }
         const response = await fetch(url, options);
-        //method, headers, body 순으로 객체에 담아서 호출
         const result = await response.json();
         return result;
       } catch (error) {
@@ -56,9 +55,11 @@ function TodoItem({ id, checked, content }) {
 
     try {
       const putData = {
-        id: nextId.current,
+        content: modification.value,
+        id: id,
         checked: checked,
       };
+
       const data = await fetchData(
         `https://api.todo-app.kro.kr/todo/${putData.id}`,
         "PUT",
@@ -91,7 +92,6 @@ function TodoItem({ id, checked, content }) {
           options.body = JSON.stringify(data);
         }
         const response = await fetch(url, options);
-        //method, headers, body 순으로 객체에 담아서 호출
         const result = await response.json();
         return result;
       } catch (error) {
@@ -101,7 +101,7 @@ function TodoItem({ id, checked, content }) {
     }
     try {
       const deleteData = {
-        id: nextId.current,
+        id: id,
       };
       const data = await fetchData(
         `https://api.todo-app.kro.kr/todo/${deleteData.id}`,
@@ -149,4 +149,3 @@ function TodoItem({ id, checked, content }) {
 }
 
 export default React.memo(TodoItem);
-

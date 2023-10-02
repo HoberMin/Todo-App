@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdAdd } from "react-icons/md";
-import { useTodoDispatch, useTodoNextId } from "../Context/TodoContext";
+import { useTodoDispatch } from "../Context/TodoContext";
 import {
   CircleButton,
   InsertFormPositioner,
@@ -11,27 +11,12 @@ import {
 function TodoCreate() {
   const [open, setOpen] = useState(false);
   const dispatch = useTodoDispatch();
-  const nextId = useTodoNextId();
 
   const onToggle = () => setOpen(!open);
   const onSubmit = async (e) => {
     const { inputValue } = e.target.elements;
     e.preventDefault();
-
-    const CREATE = "CREATE";
-    const todo = {
-      todo: {
-        id: nextId.current,
-        content: inputValue.value,
-        checked: false,
-      },
-    };
-
-    const actionCreate = (todo) => ({ type: CREATE, todo });
-    dispatch(actionCreate(todo.todo));
-
     setOpen(false);
-    nextId.current += 1;
 
     async function fetchData(url, method, data) {
       try {
@@ -56,16 +41,16 @@ function TodoCreate() {
 
     try {
       const postData = {
-        id: nextId.current,
         content: inputValue.value,
-        checked: false,
       };
       const data = await fetchData(
         "https://api.todo-app.kro.kr/todo",
         "POST",
         postData
       );
-      console.log(data);
+      const CREATE = "CREATE";
+      const actionCreate = (todo) => ({ type: CREATE, todo });
+      dispatch(actionCreate(data));
     } catch (error) {
       console.error("Error occurred:", error.message);
       throw error;

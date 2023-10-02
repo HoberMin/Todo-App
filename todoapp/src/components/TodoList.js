@@ -8,9 +8,9 @@ function TodoList() {
 
   return (
     <TodoListBlock>
-      {todos.map((todo) => (
+      {todos.map((todo, idx) => (
         <TodoItem
-          key={todo.id}
+          key={idx}
           id={todo.id}
           content={todo.content}
           checked={todo.checked}

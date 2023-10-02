@@ -1,10 +1,8 @@
 import React from "react";
-import { useAuthState } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { AuthBtn, AuthTextInput } from "../styled/AuthStyled";
 
 export function LoginForm() {
-  const state = useAuthState();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -52,8 +50,12 @@ export function LoginForm() {
         "POST",
         postData
       );
-      console.log(data);
-      navigate("/Todo");
+      if (data.message === "로그인에 성공했습니다.") {
+        navigate("/Todo");
+      } else {
+        alert("ID,PW를 확인해 주십시오.");
+        navigate("/");
+      }
     } catch (error) {
       console.error("데이터가져오기 오류");
     }

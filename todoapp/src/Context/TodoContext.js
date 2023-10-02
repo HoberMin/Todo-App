@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useReducer,
-  useContext,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
+import React, { createContext, useReducer, useContext, useEffect } from "react";
 
 function todoReducer(state, action) {
   switch (action.type) {
@@ -31,24 +24,22 @@ function todoReducer(state, action) {
 }
 const TodoStateContext = createContext();
 const TodoDispatchContext = createContext();
-const TodoNextIdContext = createContext();
 
 export function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(todoReducer, []);
-  const nextId = useRef(5);
   useEffect(() => {
     fetch("https://api.todo-app.kro.kr/todos", {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => dispatch({ type: "SET", todo: data.todos }));
+      .then((data) => {
+        dispatch({ type: "SET", todo: data.todos });
+      });
   }, []);
   return (
     <TodoStateContext.Provider value={state}>
       <TodoDispatchContext.Provider value={dispatch}>
-        <TodoNextIdContext.Provider value={nextId}>
-          {children}
-        </TodoNextIdContext.Provider>
+        {children}
       </TodoDispatchContext.Provider>
     </TodoStateContext.Provider>
   );
@@ -64,14 +55,6 @@ export function useTodoState() {
 
 export function useTodoDispatch() {
   const context = useContext(TodoDispatchContext);
-  if (!context) {
-    throw new Error("Cannot find TodoProvider");
-  }
-  return context;
-}
-
-export function useTodoNextId() {
-  const context = useContext(TodoNextIdContext);
   if (!context) {
     throw new Error("Cannot find TodoProvider");
   }

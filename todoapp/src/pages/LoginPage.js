@@ -9,6 +9,7 @@ import {
   AlignContainer,
 } from "../styled/AuthStyled";
 import { LoginForm } from "../components/LoginForm";
+import { useLoginState } from "../Context/LoginContext";
 
 function LoginPage() {
   return (
